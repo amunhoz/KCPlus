@@ -18,6 +18,18 @@
 #include <memory>
 #include <stdexcept>
 #include <ikcp.h>
+#include <stdarg.h> //modale
+#include <sys/time.h>
+
+static inline uint32_t currentMs() {
+#ifdef WIN32
+    return GetTickCount();
+#else
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    return uint32_t((time.tv_sec * 1000) + (time.tv_usec / 1000));
+#endif
+}
 
 namespace ikcp
 {
@@ -53,7 +65,7 @@ namespace ikcp
         KCPSession(IUINT32 conv = 0)
             :mKcp(ikcp_create(conv,this)),mOutputFunc(nullptr)
         {
-            mKcp->output = mOutputFuncRaw;
+            mKcp->output = mOutputFuncRaw;             
         };
 
         ~KCPSession()
