@@ -110,10 +110,10 @@ namespace ikcp
          * @param size Size of data.
          */
         void input(const char data[], SizeType size)
-        {
-            ikcp_input(mKcp, data, size);
-            if(mAsyncMode && hasReceivablePacket())
-            {
+        {                    
+            ikcp_input(mKcp, data, size);            
+            if(mAsyncMode ==true && hasReceivablePacket())
+            {                
                 mReceiveFunc(std::move(receive()));
             }
         }
@@ -343,7 +343,7 @@ namespace ikcp
     private:
         ikcpcb *mKcp;
         OutputFunction mOutputFunc;
-        bool mAsyncMode;
+        bool mAsyncMode = false;
         receiveCallback mReceiveFunc;
 
 
